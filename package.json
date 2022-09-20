@@ -2,7 +2,8 @@
   "name": "recipe-search-parser",
   "version": "1.0.0",
   "description": "An algorithms for transforming natural language search into categories.",
-  "main": "index.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest",
     "build": "rm -rf lib && tsc -p tsconfig-build.json",
