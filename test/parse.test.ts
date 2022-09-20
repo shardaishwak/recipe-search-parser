@@ -13,7 +13,6 @@ describe("Test parse method", () => {
   it.each(normal_test_data)(
     "should parse data with natural text: %s",
     (input: any, output: any) => {
-      console.log(input, output);
       const parsed = parser.parse(input);
       expect(parsed.query).toBe(output.query);
       expect(parsed.category).toBe(output.category);
