@@ -5,8 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "build": "tsc -p tsconfig-build.json",
-    "watch": "tsc -p tsconfig-build.json -w"
+    "build": "rm -rf lib && tsc -p tsconfig-build.json",
+    "watch": "nodemon --watch src -e ts,tsx -x 'npm run build'",
+    "watch:ts": "tsc -p tsconfig-build.json -w",
+    "prepublish": "npm run build"
+
   },
   "repository": {
     "type": "git",
