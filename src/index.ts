@@ -7,8 +7,15 @@ class SearchParser {
     this.lang = lang;
   }
 
+  /**
+   *  Format: {query}-categoria-{string}-con-[string]-senza-[string]
+   *  Example: pasta-al-forno-categoria-primo-con-olio-senza-uova
+   *
+   * @param {query: string, category?: string, include?: Array<string>, exclude?: Array<string>} data
+   * @returns string
+   */
   stringify = (data: {
-    query: string;
+    query?: string;
     category?: string;
     include?: Array<string>;
     exclude?: Array<string>;
@@ -16,36 +23,56 @@ class SearchParser {
     const { query, category, include, exclude } = data;
     let path = "";
 
+    // Checking if the query was provided
     if (query) {
       // sanitize
-      // Remove ricetta, any punctuation and replace space with -
+      // Removing commas and replacing spaces with dashes
       const removeSpace = query.replace(/, |,| ,|  /g, " ").replace(/ /g, "-");
+      // Adding to the pat
       path += removeSpace;
     }
+
+    // Check if the category was provided
     if (category) {
+      // Adding the index
       const text = "categoria-" + category;
+      // Adding to the path and dash if the query was provided
       if (path) {
         path += "-";
       }
       path += text;
     }
+
+    // Check if the include was provided
     if (include && include.length > 0) {
+      // Formatting the ingredinets by joining with dash
       const text = "con-" + include.join("-");
+      // Checking if the query or category was provided
       if (path) {
         path += "-";
       }
+      // Adding to path
       path += text;
     }
+
+    // Check if the exclude was provided
     if (exclude && exclude.length > 0) {
+      // Formatting the ingredinets by joining with dash
       const text = "senza-" + exclude.join("-");
+      // Checking if the query, category or include was provided
       if (path) {
         path += "-";
       }
+      // Adding to path
       path += text;
     }
     return path;
   };
 
+  /**
+   * @param path: string
+   * @return { query: string, category: string, include: Array<string>, exclude: Array<string> }
+   */
   parse = (path: string) => {
     // The user didn't type anything
     if (searchIndexes.includes(path) || path.trim() === "") {
@@ -136,7 +163,16 @@ class SearchParser {
 
   // Formatting the regex for the specific index
   // Eg. ricetta:  /(?=ricetta-)(.*)(?=-categoria)|(?=ricetta-)(.*)(?=-con)|(?=ricetta-)(.*)(?=-senza)|(?=ricetta-)(.*)/g;
-  _getRegexForStringSearch = (keyword: string, between?: Array<string>) => {
+  /**
+   *
+   * @param keyword
+   * @param between indexes that will be of boundry. For instance, category, con, senza-> the indexes between which the data should be
+   * @returns RegExp
+   */
+  _getRegexForStringSearch = (
+    keyword: string,
+    between?: Array<string>
+  ): RegExp => {
     let betweenRegex = between
       ? `(?=-${keyword}|${between.map((e) => `-${e}`).join("|")})`
       : "";
@@ -146,8 +182,18 @@ class SearchParser {
     );
   };
 
-  //
-  _regexTextToArray = (regex: RegExp, text: string) => {
+  // Matches the regex to a given string and extracts the strings that matches the format
+  // Required for extrating the query: the query will be givem by the string - the various index matches
+  /**
+   *
+   * example: con panna, con mozzarella, senza crosta, con torta
+   * return: ["panna", "mozzarella", "torta"]
+   *
+   * @param regex
+   * @param text
+   * @returns Array<string>
+   */
+  _regexTextToArray = (regex: RegExp, text: string): Array<String> => {
     const match = text.match(regex);
 
     const arr: Array<string> = [];
@@ -157,7 +203,18 @@ class SearchParser {
 
     return arr;
   };
-  _regexTextToIngredientsArray = (regex: RegExp, text: string) => {
+
+  // Quite same as _regexTextToArray, but instead of extracting string only, it extracts the ingredients
+  /**
+   *
+   * @param regex
+   * @param text
+   * @returns Array<string> (ingredients)
+   */
+  _regexTextToIngredientsArray = (
+    regex: RegExp,
+    text: string
+  ): Array<string> => {
     const match = text.match(regex);
 
     const ingredients: Set<string> = new Set();
