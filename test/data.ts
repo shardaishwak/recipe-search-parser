@@ -109,7 +109,7 @@ export const normal_test_data = [
   [
     "ricetta di ishwak con pesto alla panna, tartufo, gamberi rossi e zucchine senza il basilico e senza il formaggio",
     formatData(
-      "di ishwak", // Test case when adding user
+      "ishwak", // Test case when adding user
       "",
       ["pesto", "panna", "tartufo", "gamberi", "rossi", "zucchine"],
       ["basilico", "formaggio"]
@@ -118,5 +118,9 @@ export const normal_test_data = [
   [
     "con panna, con zucchine, senza formaggio",
     formatData("", "", ["panna", "zucchine"], ["formaggio"]),
+  ],
+  [
+    "ricetta alla banana con tartufo",
+    formatData("banana", "", ["tartufo"], []),
   ],
 ];

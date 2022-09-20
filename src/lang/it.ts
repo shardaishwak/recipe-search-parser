@@ -1,5 +1,5 @@
 export const wordsToExclude = [
-  "ricetta ",
+  "ricetta",
   "ricetta",
   "e",
   "la",

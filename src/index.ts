@@ -1,5 +1,31 @@
-import { searchIndexes, wordsToExclude } from "./lang/it";
+import { searchIndexes, wordsToExclude, wordsToExcludeString } from "./lang/it";
 
+/**
+ * @param {string} text
+ *
+ * Search Parser allows you to parse a text and extract the query, category, include and exclude words.
+ *
+ * stringify: format the the data that was given into brower friendly URL path
+ *      - query: the query string
+ *      - category: the category of the recipe
+ *      - include: the words that must be included in the recipe
+ *      - exclude: the words that must be excluded in the recipe
+ *      Example: query = "ricetta di banana", category = "dolci", include = ["latte"], exclude = ["uova"]
+ *      - stringify() => "ricetta-di-banana-categoria-dolci-con-latte-senza-uova"
+ *
+ * Space complexity: O(1)
+ * Time complexity: O(n)
+ *
+ * Parse: parse the URL and extract the query, category, include and exclude words. It enables the conversion of the natural text into a machine readable format.
+ *      URL: any text that the user has writtes
+ *      Any extra spacing, dashes, comma will be automatically removes
+ *      Example: "ricetta alla banana con mozarella e tartufo senza uova"
+ *      - parse() => { query: "alla banana", category: "", include: ["mozarella", "tartufo"], exclude: ["uova"] }
+ *
+ * Space complexity: O(1)
+ * Time complexity: O(n)
+ *
+ */
 class SearchParser {
   lang: string;
 
@@ -139,6 +165,7 @@ class SearchParser {
         ""
       )
       .replace(/-/g, " ")
+      .replace(new RegExp(`^(${wordsToExcludeString})`), "") // Remove the first word if it's in the list of words to exclude
       .trim();
 
     // Splitting the ingredients and removing the words to exclude
