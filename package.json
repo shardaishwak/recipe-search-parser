@@ -1,7 +1,7 @@
 {
   "name": "recipe-search-parser",
   "version": "1.0.0",
-  "description": "",
+  "description": "An algorithms for transforming natural language search into categories.",
   "main": "index.js",
   "scripts": {
     "test": "jest",
@@ -12,9 +12,9 @@
     "type": "git",
     "url": "git+https://github.com/shardaishwak/recipe-search-parser.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["recipe", "natural language processing", "language"],
+  "author": "Ishwak Sharda @shardaishwak",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/shardaishwak/recipe-search-parser/issues"
   },
