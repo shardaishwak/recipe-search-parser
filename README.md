@@ -1,7 +1,8 @@
 <h1>Recipe Search Parser</h1>
-<h3>An algorithms for transforming natural language search into categories. Allows the users input to be formatted into categories and then used as system for filtering and grouping.</h3>
+<p>An algorithms for transforming natural language search into categories. Allows the users input to be formatted into categories and then used as system for filtering and grouping.</p>
 
-<h2>Installation</h2>
+## Installation
+
 <p>Using npm</p>
 
 ```bash
@@ -14,7 +15,8 @@ npm install recipe-search-parser
 yarn add recipe-search-parser
 ```
 
-<h2>Usage</h2>
+## Usage
+
 <p>Import the main class</p>
 
 ```javascript
@@ -23,7 +25,8 @@ import SearchParser from "recipe-search-parser";
 const searchParser = new SearchParser();
 ```
 
-<h3>Stringify</h3>
+### Stringify
+
 <p>The <code>searchParser.stringify(data)</code> takes four parameters </p>
 <ul>
   <li>query: the normal text the user searched for</li>
@@ -39,18 +42,18 @@ const include = ["sugar", "flour"]
 const exclude = ["salt"]
 
 searchParser({
-query,
-category,
-include,
-exclude
+  query,
+  category,
+  include,
+  exclude
 })
 
 // Return: cake-with-cholocate-categoria-sweet-con-sugar-flour-senza-salt
 
-````
+```
 
 
-<h3>Parse</h3>
+### Parse
 <p>The <code>searchParser.parse(data)</code> takes one parameter <code>URL</code>. The string is then parsed and formatted into query, category, include and exclude. </p>
 
 ```javascript
@@ -64,10 +67,11 @@ searchParser.parse(URL)
 // include: ["sugar", "flour"],
 // exclude: ["salt"]
 
-````
+```
 
-<h3>Contribute</h3>
-<p>You are welcome to contribute!</p>
+## Contribute
+You are welcome to contribute!
 
-<h3>Licence</h3>
-<a href="https://choosealicense.com/licenses/mit/">MIT</a>
+## Licence
+[MIT](https://choosealicense.com/licenses/mit/)
+
