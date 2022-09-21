@@ -9,7 +9,7 @@
     "build": "rm -rf lib && tsc -p tsconfig-build.json",
     "watch": "nodemon --watch src -e ts,tsx -x 'npm run build'",
     "watch:ts": "tsc -p tsconfig-build.json -w",
-    "prepublish": "npm run build"
+    "prepublish": "npm run test && npm run build"
 
   },
   "repository": {

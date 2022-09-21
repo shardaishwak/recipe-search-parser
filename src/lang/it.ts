@@ -1,24 +1,30 @@
-export const wordsToExclude = [
+export const wordsToExcludeIT = [
   "ricetta",
-  "ricetta",
+  "categoria",
+  "con",
+  "senza",
   "e",
+  "i",
   "la",
   "il",
-  "i",
+  "lo",
   "le",
+  "di",
   "un",
   "una",
   "uno",
   "un'",
-  "con",
-  "senza",
-  "categoria",
-  "lo",
   "alla",
   "allo",
-  "di",
 ];
 
-export const wordsToExcludeString = wordsToExclude.join("|");
+export const wordsToExcludeStringIT = wordsToExcludeIT.join("|");
 
-export const searchIndexes = ["ricetta", "categoria", "con", "senza"];
+export const searchIndexesDictIT = {
+  recipe: "ricetta",
+  category: "categoria",
+  with: "con",
+  without: "senza"
+}
+export const searchIndexesIT = [searchIndexesDictIT.recipe, searchIndexesDictIT.category, searchIndexesDictIT.with, searchIndexesDictIT.without];
+
