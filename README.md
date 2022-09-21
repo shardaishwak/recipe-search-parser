@@ -41,7 +41,7 @@ const category = "sweet"
 const include = ["sugar", "flour"]
 const exclude = ["salt"]
 
-searchParser({
+searchParser.stringify({
   query,
   category,
   include,
