@@ -50,24 +50,21 @@ class SearchParser {
     const searchIndexes = international[this.lang].searchIndexesDict;
     let path = "";
 
+    // Catgory will be added ad the beginning of the URL - always
+    if (category) {
+      path+=category.replace(/ /g, "-");
+    }
+
     // Checking if the query was provided
     if (query) {
       // sanitize
       // Removing commas and replacing spaces with dashes
       const removeSpace = query.replace(/, |,| ,|  /g, " ").replace(/ /g, "-");
-      // Adding to the pat
-      path += removeSpace;
-    }
-
-    // Check if the category was provided
-    if (category) {
-      // Adding the index
-      const text = searchIndexes.category + "-" + category;
-      // Adding to the path and dash if the query was provided
+      // Adding to the path
       if (path) {
         path += "-";
       }
-      path += text;
+      path += removeSpace;
     }
 
     // Check if the include was provided
@@ -102,6 +99,8 @@ class SearchParser {
    */
   parse = (path: string) => {
     const text = international[this.lang].searchIndexesDict;
+    const categories = international[this.lang].categories;
+    const categoriesSingularToPlural = international[this.lang].categoriesSingularToPlural;
     // The user didn't type anything
     if (international[this.lang].searchIndexes.includes(path) || path.trim() === "") {
       return {
@@ -119,11 +118,7 @@ class SearchParser {
       /(?=ricetta-)(.*)(?=-categoria)|(?=ricetta-)(.*)(?=-con)|(?=ricetta-)(.*)(?=-senza)|(?=ricetta-)(.*)/g;
 
     // Get string between categoria- and con- or only categoria- if no con
-    const categoryRegex = this._getRegexForStringSearch(text.category, [
-      text.with,
-      text.without,
-      text.recipe,
-    ]);
+    const categoryRegex = new RegExp(`^(${categories.join("|")})`, "g");
 
     // Get string between con- and senza- or only con- if no senza
     const includeRegex = this._getRegexForStringSearch(text.with, [
@@ -155,13 +150,7 @@ class SearchParser {
     const queryText = sanitize
       .replace(
         new RegExp(
-          `${text.recipe}-${
-            categoryText
-              ? `|${text.category}-${categoryText}|-${text.category}-${categoryText}`
-              : ""
-          }${includePath ? `|-${includePath}|${includePath}` : ""}${
-            excludePath ? `|${excludePath}|-${excludePath}` : ""
-          }`,
+          `${categoryText}-|${categoryText}|${text.recipe}-${includePath ? `|-${includePath}|${includePath}` : ""}${excludePath ? `|${excludePath}|-${excludePath}` : ""}`,
           "g"
         ),
         ""
@@ -169,6 +158,7 @@ class SearchParser {
       .replace(/-/g, " ")
       .replace(new RegExp(`^(${international[this.lang].wordsToExcludeString})`), "") // Remove the first word if it's in the list of words to exclude
       .trim();
+
 
     // Splitting the ingredients and removing the words to exclude
     const includeText = this._regexTextToIngredientsArray(
@@ -184,7 +174,7 @@ class SearchParser {
 
     return {
       query: queryText || "",
-      category: categoryText || "",
+      category: categoryText && (categoriesSingularToPlural[categoryText] || categoryText) || "",
       include: includeText || [],
       exclude: excludeText || [],
     };
