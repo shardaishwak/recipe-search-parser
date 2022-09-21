@@ -35,6 +35,8 @@ export const categoriesEN = [
   "side dish",
   "dessert",
   "drink",
+  "sweets",
+  "sweent"
 ]
 
 // the server takes only the plurals but the user may write in singular
@@ -43,11 +45,12 @@ export const categoriesEN = [
 // Will map the singular to plural
 
 export const categoriesSingularToPluralEN = {
-  "appetizer": "appetizers",
+  "appetizer": "appetizers", // required in italian as the database only has the plural
   "primo": "primi",
   "secondo": "secondi",
 
   "side-dish": "side-dishes",
   "dessert": "desserts",
   "drink": "drinks",
+  "sweet": "sweets",
 }

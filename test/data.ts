@@ -168,4 +168,7 @@ export const normal_test_data_IT = [
 export const normal_test_data_EN = [
   ["with sugar", formatData("", "", ["sugar"], [])],
   ["appetizer", formatData("", "appetizers", [], [])],
+  ["dessert recipe banana and zucchine without tartufo with zucchoero, panna and oil", formatData("banana and zucchine", "desserts", ["zucchoero", "panna", "oil"], ["tartufo"])],
+  ["sweets", formatData("", "sweets", [], [])],
+
 ]
