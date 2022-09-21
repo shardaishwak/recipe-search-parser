@@ -10,12 +10,13 @@ export const wordsToExcludeIT = [
   "lo",
   "le",
   "di",
+  "ai",
   "un",
   "una",
   "uno",
   "un'",
   "alla",
-  "allo",
+  "allo"
 ];
 
 export const wordsToExcludeStringIT = wordsToExcludeIT.join("|");
@@ -35,5 +36,27 @@ export const categoriesIT = [
   "contorni",
   "dolci",
   "bevande",
-  "piatto-unico"
+  "piatto-unico",
+  // Singular check
+  "antipasto",
+  "primo",
+  "secondo",
+  "contorno",
+  "dolce",
+  "bevanda",
+  
 ]
+
+// the server takes only the plurals but the user may write in singular
+// we need to change the singular to plural using dictionaary
+
+// Will map the singular to plural
+export const categoriesSingularToPluralIT = {
+  "antipasto": "antipasti",
+  "primo": "primi",
+  "secondo": "secondi",
+
+  "contorno": "contorni",
+  "dolce": "dolci",
+  "bevanda": "bevande",
+}

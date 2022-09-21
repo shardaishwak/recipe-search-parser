@@ -142,8 +142,30 @@ export const normal_test_data_IT = [
     "ricetta alla banana con tartufo",
     formatData("banana", "", ["tartufo"], []),
   ],
+  // testing the singular and plural category
+  [
+    "dolce banana",
+    formatData("banana", "dolci", [], []),
+  ],
+  [
+    "bevanda calda",
+    formatData("calda", "bevande", [], []),
+  ],
+  [
+    "primo pasta",
+    formatData("pasta", "primi", [], []),
+  ],
+  [
+    "dolce di tonno",
+    formatData("tonno", "dolci", [], []),
+  ],
+  [
+    "piatto unico ai carciofi",
+    formatData("carciofi", "piatto-unico", [], []),
+  ]
 ];
 
 export const normal_test_data_EN = [
-  ["with sugar", formatData("", "", ["sugar"], [])]
+  ["with sugar", formatData("", "", ["sugar"], [])],
+  ["appetizer", formatData("", "appetizers", [], [])],
 ]

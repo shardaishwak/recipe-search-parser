@@ -100,6 +100,7 @@ class SearchParser {
   parse = (path: string) => {
     const text = international[this.lang].searchIndexesDict;
     const categories = international[this.lang].categories;
+    const categoriesSingularToPlural = international[this.lang].categoriesSingularToPlural;
     // The user didn't type anything
     if (international[this.lang].searchIndexes.includes(path) || path.trim() === "") {
       return {
@@ -144,13 +145,12 @@ class SearchParser {
 
     // Getting the specific text for category-> categoria-{category}
     const categoryText = sanitize.match(categoryRegex)?.[0];
-    console.log(categoryText);
 
     // Finding the query by prior -> the only text remaining is the query
     const queryText = sanitize
       .replace(
         new RegExp(
-          `${categoryText}|${text.recipe}-${includePath ? `|-${includePath}|${includePath}` : ""}${excludePath ? `|${excludePath}|-${excludePath}` : ""}`,
+          `${categoryText}-|${categoryText}|${text.recipe}-${includePath ? `|-${includePath}|${includePath}` : ""}${excludePath ? `|${excludePath}|-${excludePath}` : ""}`,
           "g"
         ),
         ""
@@ -158,6 +158,7 @@ class SearchParser {
       .replace(/-/g, " ")
       .replace(new RegExp(`^(${international[this.lang].wordsToExcludeString})`), "") // Remove the first word if it's in the list of words to exclude
       .trim();
+
 
     // Splitting the ingredients and removing the words to exclude
     const includeText = this._regexTextToIngredientsArray(
@@ -173,7 +174,7 @@ class SearchParser {
 
     return {
       query: queryText || "",
-      category: categoryText || "",
+      category: categoryText && (categoriesSingularToPlural[categoryText] || categoryText) || "",
       include: includeText || [],
       exclude: excludeText || [],
     };
