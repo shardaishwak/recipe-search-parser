@@ -1,10 +1,23 @@
 import SearchParser from "../src/index";
-import { test_case_data } from "./data";
+import { SupportedLanguage } from "../src/lang";
+import { test_case_data_EN, test_case_data_IT } from "./data";
 
-const parser = new SearchParser("it");
 
-describe("Test stringify method", () => {
-  it.each(test_case_data)("should stringify %s", (input: any, output) => {
+describe("Test stringify method - English", () => {
+  const parser = new SearchParser(SupportedLanguage.en);
+
+  it.each(test_case_data_EN)("EN: should stringify %s", (input: any, output: any) => {
+  expect(parser.stringify(input)).toBe(output); 
+  })
+});
+
+describe("Test strngify method - Italian", () => {
+  const parser = new SearchParser(SupportedLanguage.it);
+
+  it.each(test_case_data_IT)("%s", (input: any, output) => {
     expect(parser.stringify(input)).toBe(output);
   });
-});
+})
+
+
+
