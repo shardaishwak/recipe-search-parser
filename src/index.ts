@@ -1,4 +1,4 @@
-import { searchIndexes, wordsToExclude, wordsToExcludeString } from "./lang/it";
+import international, {  SupportedLanguage } from "./lang";
 
 /**
  * @param {string} text
@@ -27,9 +27,9 @@ import { searchIndexes, wordsToExclude, wordsToExcludeString } from "./lang/it";
  *
  */
 class SearchParser {
-  lang: string;
+  lang: SupportedLanguage;
 
-  constructor(lang: string) {
+  constructor(lang: SupportedLanguage) {
     this.lang = lang;
   }
 
@@ -47,6 +47,7 @@ class SearchParser {
     exclude?: Array<string>;
   }) => {
     const { query, category, include, exclude } = data;
+    const searchIndexes = international[this.lang].searchIndexesDict;
     let path = "";
 
     // Checking if the query was provided
@@ -61,7 +62,7 @@ class SearchParser {
     // Check if the category was provided
     if (category) {
       // Adding the index
-      const text = "categoria-" + category;
+      const text = searchIndexes.category + "-" + category;
       // Adding to the path and dash if the query was provided
       if (path) {
         path += "-";
@@ -72,7 +73,7 @@ class SearchParser {
     // Check if the include was provided
     if (include && include.length > 0) {
       // Formatting the ingredinets by joining with dash
-      const text = "con-" + include.join("-");
+      const text = searchIndexes.with + "-" + include.join("-");
       // Checking if the query or category was provided
       if (path) {
         path += "-";
@@ -84,7 +85,7 @@ class SearchParser {
     // Check if the exclude was provided
     if (exclude && exclude.length > 0) {
       // Formatting the ingredinets by joining with dash
-      const text = "senza-" + exclude.join("-");
+      const text = searchIndexes.without + "-" + exclude.join("-");
       // Checking if the query, category or include was provided
       if (path) {
         path += "-";
@@ -100,8 +101,9 @@ class SearchParser {
    * @return { query: string, category: string, include: Array<string>, exclude: Array<string> }
    */
   parse = (path: string) => {
+    const text = international[this.lang].searchIndexesDict;
     // The user didn't type anything
-    if (searchIndexes.includes(path) || path.trim() === "") {
+    if (international[this.lang].searchIndexes.includes(path) || path.trim() === "") {
       return {
         query: "",
         category: "",
@@ -117,33 +119,33 @@ class SearchParser {
       /(?=ricetta-)(.*)(?=-categoria)|(?=ricetta-)(.*)(?=-con)|(?=ricetta-)(.*)(?=-senza)|(?=ricetta-)(.*)/g;
 
     // Get string between categoria- and con- or only categoria- if no con
-    const categoryRegex = this._getRegexForStringSearch("categoria", [
-      "con",
-      "senza",
-      "ricetta",
+    const categoryRegex = this._getRegexForStringSearch(text.category, [
+      text.with,
+      text.without,
+      text.recipe,
     ]);
 
     // Get string between con- and senza- or only con- if no senza
-    const includeRegex = this._getRegexForStringSearch("con", [
-      "senza",
-      "categoria",
+    const includeRegex = this._getRegexForStringSearch(text.with, [
+      text.without,
+      text.category,
     ]);
 
     // Get string after senza-
-    const excludeRegex = this._getRegexForStringSearch("senza", [
-      "con",
-      "categoria",
+    const excludeRegex = this._getRegexForStringSearch(text.without, [
+      text.with,
+      text.category,
     ]);
 
     // Getting the specific text for include from array of elements that were fould
     // This is required for filtering the path and get the query
     const includePath = this._regexTextToArray(includeRegex, sanitize)
-      .map((e) => "con-" + e)
+      .map((e) => text.with + "-" + e)
       .join("|");
 
     // Getting the specific text for exclude-> senza-{ingredients}
     const excludePath = this._regexTextToArray(excludeRegex, sanitize)
-      .map((e) => "senza-" + e)
+      .map((e) => text.without + "-" + e)
       .join("|");
 
     // Getting the specific text for category-> categoria-{category}
@@ -153,9 +155,9 @@ class SearchParser {
     const queryText = sanitize
       .replace(
         new RegExp(
-          `ricetta-${
+          `${text.recipe}-${
             categoryText
-              ? `|categoria-${categoryText}|-categoria-${categoryText}`
+              ? `|${text.category}-${categoryText}|-${text.category}-${categoryText}`
               : ""
           }${includePath ? `|-${includePath}|${includePath}` : ""}${
             excludePath ? `|${excludePath}|-${excludePath}` : ""
@@ -165,7 +167,7 @@ class SearchParser {
         ""
       )
       .replace(/-/g, " ")
-      .replace(new RegExp(`^(${wordsToExcludeString})`), "") // Remove the first word if it's in the list of words to exclude
+      .replace(new RegExp(`^(${international[this.lang].wordsToExcludeString})`), "") // Remove the first word if it's in the list of words to exclude
       .trim();
 
     // Splitting the ingredients and removing the words to exclude
@@ -189,7 +191,7 @@ class SearchParser {
   };
 
   // Formatting the regex for the specific index
-  // Eg. ricetta:  /(?=ricetta-)(.*)(?=-categoria)|(?=ricetta-)(.*)(?=-con)|(?=ricetta-)(.*)(?=-senza)|(?=ricetta-)(.*)/g;
+  // Eg. recipe:  /(?=recipe-)(.*)(?=-categpry)|(?=recipe-)(.*)(?=-with)|(?=recipe-)(.*)(?=-without)|(?=recipe-)(.*)/g;
   /**
    *
    * @param keyword
@@ -214,7 +216,7 @@ class SearchParser {
   /**
    *
    * example: con panna, con mozzarella, senza crosta, con torta
-   * return: ["panna", "mozzarella", "torta"]
+   * return: ["panna", "mozzarella", "cake"]
    *
    * @param regex
    * @param text
@@ -247,7 +249,7 @@ class SearchParser {
     const ingredients: Set<string> = new Set();
     match?.forEach((result) => {
       result.split("-").forEach((element) => {
-        !wordsToExclude.includes(element) && ingredients.add(element);
+        !international[this.lang].wordsToExclude.includes(element) && ingredients.add(element);
       });
     });
 

@@ -1,4 +1,4 @@
-export const test_case_data = [
+export const test_case_data_IT = [
   [
     {
       query: "banana alla fragola",
@@ -50,6 +50,25 @@ export const test_case_data = [
   ],
 ];
 
+export const test_case_data_EN = [
+  [
+    {query: "banana with strawberry", category: "sweet", include: ["milk"], exclude: ["egg"],}, 
+    "banana-with-strawberry-category-sweet-with-milk-without-egg"
+  ],
+  [
+    {query: "banana", category: "", include: [], exclude: []},
+    "banana"
+  ],
+  [
+    {query: "recipe banana", category: "", include: [], exclude: []},
+    "recipe-banana"
+  ],
+  [
+    {query: "recipe with banana", category: "first-dishes", include: ["panna", "mozzarella", "sugar"], exclude: ["oil", "egg", "other"]},
+    "recipe-with-banana-category-first-dishes-with-panna-mozzarella-sugar-without-oil-egg-other"
+  ]
+]
+
 const formatData = (
   query: string,
   category: string,
@@ -58,7 +77,7 @@ const formatData = (
 ) => ({ query, category, include, exclude });
 
 // [output, input] - parse only
-export const normal_test_data = [
+export const normal_test_data_IT = [
   ["con zucchero", formatData("", "", ["zucchero"], [])],
   ["con zucchero senza latte", formatData("", "", ["zucchero"], ["latte"])],
   [
@@ -124,3 +143,7 @@ export const normal_test_data = [
     formatData("banana", "", ["tartufo"], []),
   ],
 ];
+
+export const normal_test_data_EN = [
+  ["with sugar", formatData("", "", ["sugar"], [])]
+]
