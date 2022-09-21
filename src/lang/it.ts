@@ -28,3 +28,12 @@ export const searchIndexesDictIT = {
 }
 export const searchIndexesIT = [searchIndexesDictIT.recipe, searchIndexesDictIT.category, searchIndexesDictIT.with, searchIndexesDictIT.without];
 
+export const categoriesIT = [
+  "antipasti",
+  "primi",
+  "secondi",
+  "contorni",
+  "dolci",
+  "bevande",
+  "piatto-unico"
+]

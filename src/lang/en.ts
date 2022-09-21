@@ -19,3 +19,13 @@ export const searchIndexesDictEN = {
   without: "without"
 }
 export const searchIndexesEN = [searchIndexesDictEN.recipe, searchIndexesDictEN.category, searchIndexesDictEN.with, searchIndexesDictEN.without];
+
+export const categoriesEN = [
+  "appetizers",
+  "primi",
+  "secondi",
+  "side-dishes",
+  "desserts",
+  "drinks",
+  "one-dish-meal"
+]
