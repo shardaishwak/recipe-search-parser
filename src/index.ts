@@ -70,7 +70,8 @@ class SearchParser {
     // Check if the include was provided
     if (include && include.length > 0) {
       // Formatting the ingredinets by joining with dash
-      const text = searchIndexes.with + "-" + include.join("-");
+      const removeSpaceAndConcat = include.join("-").replace(/, |,| ,|  /g, " ").replace(/ /g, "-")
+      const text = searchIndexes.with + "-" + removeSpaceAndConcat
       // Checking if the query or category was provided
       if (path) {
         path += "-";
@@ -82,7 +83,8 @@ class SearchParser {
     // Check if the exclude was provided
     if (exclude && exclude.length > 0) {
       // Formatting the ingredinets by joining with dash
-      const text = searchIndexes.without + "-" + exclude.join("-");
+      const removeSpaceAndConcat = exclude.join("-").replace(/, |,| ,|  /g, " ").replace(/ /g, "-")
+      const text = searchIndexes.without + "-" + removeSpaceAndConcat
       // Checking if the query, category or include was provided
       if (path) {
         path += "-";

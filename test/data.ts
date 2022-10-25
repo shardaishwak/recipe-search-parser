@@ -48,6 +48,24 @@ export const test_case_data_IT = [
     },
     "antipasti-ricetta-di-tartufo-con-uova-panna-zucchine-senza-olio-uova-panna",
   ],
+  [
+    {
+      query: "",
+      category: "",
+      include: ["farina 00 macinato"],
+      exclude: []
+    },
+    "con-farina-00-macinato"
+  ],
+  [
+    {
+      query: "",
+      category: "",
+      include: [],
+      exclude:["farina 00 macinato", "uova cotta"]
+    },
+    "senza-farina-00-macinato-uova-cotta"
+  ]
 ];
 
 export const test_case_data_EN = [
