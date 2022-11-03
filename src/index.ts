@@ -52,14 +52,14 @@ class SearchParser {
 
     // Catgory will be added ad the beginning of the URL - always
     if (category) {
-      path+=category.replace(/ /g, "-");
+      path+=this._cleanStringRegexp(category, true).replace(/ /g, "-");
     }
 
     // Checking if the query was provided
     if (query) {
       // sanitize
       // Removing commas and replacing spaces with dashes
-      const removeSpace = query.replace(/, |,| ,|  /g, " ").replace(/ /g, "-");
+      const removeSpace = this._cleanStringRegexp(query, true).replace(/ /g, "-");
       // Adding to the path
       if (path) {
         path += "-";
@@ -70,7 +70,7 @@ class SearchParser {
     // Check if the include was provided
     if (include && include.length > 0) {
       // Formatting the ingredinets by joining with dash
-      const removeSpaceAndConcat = include.join("-").replace(/, |,| ,|  /g, " ").replace(/ /g, "-")
+      const removeSpaceAndConcat = this._cleanStringRegexp(include.join("-"), true).replace(/ /g, "-")
       const text = searchIndexes.with + "-" + removeSpaceAndConcat
       // Checking if the query or category was provided
       if (path) {
@@ -83,7 +83,7 @@ class SearchParser {
     // Check if the exclude was provided
     if (exclude && exclude.length > 0) {
       // Formatting the ingredinets by joining with dash
-      const removeSpaceAndConcat = exclude.join("-").replace(/, |,| ,|  /g, " ").replace(/ /g, "-")
+      const removeSpaceAndConcat = this._cleanStringRegexp( exclude.join("-"), true).replace(/ /g, "-")
       const text = searchIndexes.without + "-" + removeSpaceAndConcat
       // Checking if the query, category or include was provided
       if (path) {
@@ -114,7 +114,7 @@ class SearchParser {
     }
 
     //Removing th white space and adding dashes + replacing the coma with a space
-    const sanitize = path.replace(/ /g, "-").replace(/, | , | ,|,|/g, "");
+    const sanitize = this._cleanStringRegexp(path, true).replace(/ /g, "-")
     // Get string between ricetta- and categoria- or only ricetta- if no categoria
     const queryRegex =
       /(?=ricetta-)(.*)(?=-categoria)|(?=ricetta-)(.*)(?=-con)|(?=ricetta-)(.*)(?=-senza)|(?=ricetta-)(.*)/g;
@@ -158,7 +158,7 @@ class SearchParser {
         ""
       )
       .replace(/-/g, " ")
-      .replace(new RegExp(`^(${international[this.lang].wordsToExcludeString})`), "") // Remove the first word if it's in the list of words to exclude
+      .replace(new RegExp(`${international[this.lang].wordsToExcludeString}`), "") // Remove the first word if it's in the list of words to exclude
       .trim();
 
 
@@ -247,6 +247,16 @@ class SearchParser {
 
     return [...ingredients];
   };
+
+  /**
+   * Clean the string the user wrote: should contain only letters, numbers, or spaces
+   * Ex. torta con carote, cipolla. Ma senza panna (e yogurt) -> torta con carote cipolla ma senza panna e yogurt
+   */
+  _cleanStringRegexp = (string: string, withSpace?: boolean): string => {
+    const regex = new RegExp(`[^a-z${withSpace ? " " : ""}A-Z0-9]`, "g")
+    const space = withSpace ? " " : "";
+    return string.toLowerCase().replace(regex, space).replace(/\s+/g, space).trim();
+  }
 }
 
 export default SearchParser;

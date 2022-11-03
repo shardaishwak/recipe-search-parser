@@ -65,6 +65,24 @@ export const test_case_data_IT = [
       exclude:["farina 00 macinato", "uova cotta"]
     },
     "senza-farina-00-macinato-uova-cotta"
+  ],
+  [
+    {
+      query: "con fiocchi di patate (o 2 patate lesse)",
+      category: "",
+      include: [],
+      exclude: []
+    },
+    "con-fiocchi-di-patate-o-2-patate-lesse"
+  ],
+  [
+    {
+      query: "con crema di nocciole (o altra crema 100% frutta  secca)",
+      category: "",
+      include: [],
+      exclude: []
+    },
+    "con-crema-di-nocciole-o-altra-crema-100-frutta-secca"
   ]
 ];
 
@@ -180,6 +198,30 @@ export const normal_test_data_IT = [
   [
     "piatto unico ai carciofi",
     formatData("carciofi", "piatto-unico", [], []),
+  ],
+  [
+    "unpelatoincucina",
+    formatData("unpelatoincucina", "", [], []),
+  ],
+  [
+    "unpelatoincucina con panna",
+    formatData("unpelatoincucina", "", ["panna"], []),
+  ],
+  [
+    "i fichi della nonna lamela",
+    formatData("fichi della nonna lamela", "", [], []),
+  ],
+  [
+    "ricette per natale",
+    formatData("per natale", "", [], []),
+  ],
+  [
+    "ricette con zucchero",
+    formatData("", "", ["zucchero"], []),
+  ],
+  [
+    "ricette con la marmellata senza i fagiolini",
+    formatData("", "", ["marmellata"], ["fagiolini"]),
   ]
 ];
 

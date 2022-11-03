@@ -1,5 +1,6 @@
 export const wordsToExcludeEN = [
   "recipe",
+  "recipes",
   "category",
   "with",
   "without",
@@ -10,7 +11,11 @@ export const wordsToExcludeEN = [
   "one",
 ]
 
-export const wordsToExcludeStringEN = wordsToExcludeEN.join("|");
+export const wordsToExcludeStringEN = wordsToExcludeEN.reduce((acc, word) => {
+  // ^ means starting with
+  acc+=`^${word} |(^${word}$)| ${word} |`
+  return acc;
+}, "")
 
 export const searchIndexesDictEN = {
   recipe: "recipe",

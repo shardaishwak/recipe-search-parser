@@ -1,5 +1,6 @@
 export const wordsToExcludeIT = [
   "ricetta",
+  "ricette",
   "categoria",
   "con",
   "senza",
@@ -19,7 +20,11 @@ export const wordsToExcludeIT = [
   "allo"
 ];
 
-export const wordsToExcludeStringIT = wordsToExcludeIT.join("|");
+export const wordsToExcludeStringIT = wordsToExcludeIT.reduce((acc, word) => {
+  // ^(word)$ = starts and ends with word
+  acc+=`^${word} |(^${word}$)| ${word} |`
+  return acc;
+}, "")
 
 export const searchIndexesDictIT = {
   recipe: "ricetta",
