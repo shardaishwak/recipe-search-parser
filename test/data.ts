@@ -133,8 +133,12 @@ const formatData = (
   query: string,
   category: string,
   include: Array<string>,
-  exclude: Array<string>
-) => ({ query, category, include, exclude });
+  exclude: Array<string>,
+  order?: string,
+  simplecooking?: string,
+  tags?: Array<string>
+
+) => ({ query, category, include, exclude, order, simplecooking, tags });
 
 // [output, input] - parse only
 export const normal_test_data_IT = [
@@ -246,6 +250,10 @@ export const normal_test_data_IT = [
   [
     "ricette con la marmellata senza i fagiolini",
     formatData("", "", ["marmellata"], ["fagiolini"]),
+  ],
+  [
+    "ricette con la marmellata senza i fagiolini ordine interactions simplecooking cooking tags cioccolato carciofo",
+    formatData("", "", ["marmellata"], ["fagiolini"], "interactions", "cooking", ["cioccolato", "carciofo"]),
   ]
 ];
 

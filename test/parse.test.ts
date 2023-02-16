@@ -23,6 +23,9 @@ describe("Test parse method - Italian", () => {
       expect(parsed.category).toBe(output.category);
       expect(parsed.include.toString()).toEqual(output.include.toString());
       expect(parsed.exclude.toString()).toEqual(output.exclude.toString());
+      parsed?.order && expect(parsed.order).toEqual(output.order);
+      parsed?.simplecooking && expect(parsed.simplecooking).toEqual(output.simplecooking);
+      parsed?.tags && output?.tags&& expect(parsed.tags?.toString()).toEqual(output?.tags?.toString());
     }
   );
 });
@@ -46,6 +49,9 @@ describe("Test parse method - English", () => {
       expect(parsed.category).toBe(output.category);
       expect(parsed.include.toString()).toEqual(output.include.toString());
       expect(parsed.exclude.toString()).toEqual(output.exclude.toString());
+      parsed?.order && expect(parsed.order).toEqual(output.order);
+      parsed?.simplecooking && expect(parsed.simplecooking).toEqual(output.simplecooking);
+      parsed?.tags && output?.tags && expect(parsed.tags?.toString()).toEqual(output.tags?.toString());
     }
   );
 })
