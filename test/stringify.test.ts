@@ -14,6 +14,7 @@ describe("Test stringify method - English", () => {
 describe("Test strngify method - Italian", () => {
   const parser = new SearchParser(SupportedLanguage.it);
 
+   // @ts-ignore
   it.each(test_case_data_IT)("%s", (input: any, output) => {
     expect(parser.stringify(input)).toBe(output);
   });

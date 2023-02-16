@@ -351,17 +351,4 @@ class SearchParser {
     return string.toLowerCase().replace(regex, space).replace(/\s+/g, space).trim();
   }
 }
-
-const parser = new SearchParser(SupportedLanguage.it);
-const string = (parser.stringify({
-  query: "hello",
-  category: "primi",
-  include: ["fdfd"],
-  exclude: ['3232'],
-  order: "order",
-}))
-
-const parsed = parser.parse(string);
-console.log(parsed)
-
 export default SearchParser;

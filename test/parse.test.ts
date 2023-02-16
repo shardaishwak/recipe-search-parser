@@ -2,18 +2,21 @@ import SearchParser from "../src/index";
 import { SupportedLanguage } from "../src/lang";
 import { normal_test_data_EN, normal_test_data_IT, test_case_data_EN, test_case_data_IT } from "./data";
 
-
+//@ts-ignore
 describe("Test parse method - Italian", () => {
   const parser = new SearchParser(SupportedLanguage.it);
 
-  it.each(test_case_data_IT)(
+  const data = test_case_data_IT as any;
+  it.each(data )(
     "should parse with stringify data %s",
-    (output: any, input: any) => {
+    // @ts-ignore
+    (output, input) => {
       expect(parser.parse(input).toString()).toBe(output.toString());
     }
   );
   it.each(normal_test_data_IT)(
     "should parse data with natural text: %s",
+     // @ts-ignore
     (input: any, output: any) => {
       const parsed = parser.parse(input);
       expect(parsed.query).toBe(output.query);
@@ -29,12 +32,14 @@ describe("Test parse method - English", () => {
 
   it.each(test_case_data_EN)(
     "should parse with stringify data %s",
+     // @ts-ignore
     (output: any, input: any) => {
       expect(parser.parse(input).toString()).toBe(output.toString());
     }
   );
   it.each(normal_test_data_EN)(
     "should parse data with natural text: %s",
+     // @ts-ignore
     (input: any, output: any) => {
       const parsed = parser.parse(input);
       expect(parsed.query).toBe(output.query);

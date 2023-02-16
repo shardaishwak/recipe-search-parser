@@ -83,6 +83,30 @@ export const test_case_data_IT = [
       exclude: []
     },
     "con-crema-di-nocciole-o-altra-crema-100-frutta-secca"
+  ],
+  [
+    {
+      query: "",
+      category: '',
+      include: [],
+      exclude: [],
+      order: "orderingtests",
+      simplecooking: "simplecookingtest",
+      tags: ["tag1", "tag2", "tag3"]
+    },
+    "ordine-orderingtests-simplecooking-simplecookingtest-tags-tag1-tag2-tag3"
+  ],
+  [
+    {
+      query: "hello",
+      category: 'dolci',
+      include: [],
+      exclude: [],
+      order: "",
+      simplecooking: "",
+      tags: ["tag1"]
+    },
+    "dolci-hello-tags-tag1"
   ]
 ];
 

@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "test": "jest",
+    "test": "jest --silent=false",
     "start": "npm run build && node ./lib/index.js",
     "build": "rm -rf lib && tsc -p tsconfig-build.json",
     "watch": "nodemon --watch src -e ts,tsx -x 'npm run build'",
