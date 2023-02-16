@@ -252,8 +252,8 @@ export const normal_test_data_IT = [
     formatData("", "", ["marmellata"], ["fagiolini"]),
   ],
   [
-    "ricette con la marmellata senza i fagiolini ordine interactions simplecooking cooking tags cioccolato carciofo",
-    formatData("", "", ["marmellata"], ["fagiolini"], "interactions", "cooking", ["cioccolato", "carciofo"]),
+    "ricette torta con la marmellata senza i fagiolini ordine interactions simplecooking cooking tags cioccolato carciofo",
+    formatData("torta", "", ["marmellata"], ["fagiolini"], "interactions", "cooking", ["cioccolato", "carciofo"]),
   ]
 ];
 
