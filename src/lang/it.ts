@@ -30,7 +30,10 @@ export const searchIndexesDictIT = {
   recipe: "ricetta",
   category: "categoria",
   with: "con",
-  without: "senza"
+  without: "senza",
+  order: "ordine",
+  simplecooking: "simplecooking",
+  tags: "tags"
 }
 export const searchIndexesIT = [searchIndexesDictIT.recipe, searchIndexesDictIT.category, searchIndexesDictIT.with, searchIndexesDictIT.without];
 

@@ -45,8 +45,11 @@ class SearchParser {
     category?: string;
     include?: Array<string>;
     exclude?: Array<string>;
+    order?: string,
+    simplecooking?: string
+    tags?: Array<string>
   }) => {
-    const { query, category, include, exclude } = data;
+    const { query, category, include, exclude, order, simplecooking, tags } = data;
     const searchIndexes = international[this.lang].searchIndexesDict;
     let path = "";
 
@@ -67,6 +70,8 @@ class SearchParser {
       path += removeSpace;
     }
 
+     
+
     // Check if the include was provided
     if (include && include.length > 0) {
       // Formatting the ingredinets by joining with dash
@@ -85,6 +90,45 @@ class SearchParser {
       // Formatting the ingredinets by joining with dash
       const removeSpaceAndConcat = this._cleanStringRegexp( exclude.join("-"), true).replace(/ /g, "-")
       const text = searchIndexes.without + "-" + removeSpaceAndConcat
+      // Checking if the query, category or include was provided
+      if (path) {
+        path += "-";
+      }
+      // Adding to path
+      path += text;
+    }
+
+    // Checking if the query was provided
+    if (order) {
+      // sanitize
+      // Removing commas and replacing spaces with dashes
+      const removeSpace = this._cleanStringRegexp(order, true).replace(/ /g, "-");
+      const text = searchIndexes.order + "-" + removeSpace
+      // Adding to the path
+      if (path) {
+        path += "-";
+      }
+      path += text;
+    }
+
+    // Checking if the query was provided
+    if (simplecooking) {
+      // sanitize
+      // Removing commas and replacing spaces with dashes
+      const removeSpace = this._cleanStringRegexp(simplecooking, true).replace(/ /g, "-");
+      const text = searchIndexes.simplecooking + "-" + removeSpace
+      // Adding to the path
+      if (path) {
+        path += "-";
+      }
+      path += text;
+    }
+
+    // Check if the tags was provided
+    if (tags && tags.length > 0) {
+      // Formatting the ingredinets by joining with dash
+      const removeSpaceAndConcat = this._cleanStringRegexp( tags.join("-"), true).replace(/ /g, "-")
+      const text = searchIndexes.tags + "-" + removeSpaceAndConcat
       // Checking if the query, category or include was provided
       if (path) {
         path += "-";
@@ -116,8 +160,6 @@ class SearchParser {
     //Removing th white space and adding dashes + replacing the coma with a space
     const sanitize = this._cleanStringRegexp(path, true).replace(/ /g, "-")
     // Get string between ricetta- and categoria- or only ricetta- if no categoria
-    const queryRegex =
-      /(?=ricetta-)(.*)(?=-categoria)|(?=ricetta-)(.*)(?=-con)|(?=ricetta-)(.*)(?=-senza)|(?=ricetta-)(.*)/g;
 
     // Get string between categoria- and con- or only categoria- if no con
     const categoryRegex = new RegExp(`^(${categories.join("|")})`, "g");
@@ -126,12 +168,45 @@ class SearchParser {
     const includeRegex = this._getRegexForStringSearch(text.with, [
       text.without,
       text.category,
+      text.order,
+      text.simplecooking,
+      text.tags
     ]);
 
     // Get string after senza-
     const excludeRegex = this._getRegexForStringSearch(text.without, [
       text.with,
       text.category,
+      text.order,
+      text.simplecooking,
+      text.tags
+    ]);
+
+    // Get string after senza-
+    const orderRegex = this._getRegexForStringSearch(text.order, [
+      text.with,
+      text.category,
+      text.without,
+      text.simplecooking,
+      text.tags
+    ]);
+
+    // Get string after senza-
+    const simplecookingRegex = this._getRegexForStringSearch(text.simplecooking, [
+      text.with,
+      text.category,
+      text.without,
+      text.order,
+      text.tags
+    ]);
+
+    // Get string after senza-
+    const tagsRegex = this._getRegexForStringSearch(text.tags, [
+      text.with,
+      text.category,
+      text.without,
+      text.order,
+      text.simplecooking
     ]);
 
     // Getting the specific text for include from array of elements that were fould
@@ -145,14 +220,23 @@ class SearchParser {
       .map((e) => text.without + "-" + e)
       .join("|");
 
+    const tagsPath = this._regexTextToArray(tagsRegex, sanitize)
+    .map((e) => text.tags + "-" + e)
+    .join("|");
+
+    
     // Getting the specific text for category-> categoria-{category}
     const categoryText = sanitize.match(categoryRegex)?.[0];
+    const orderText = sanitize.match(orderRegex)?.[0];
+    const simpleCookingText = sanitize.match(simplecookingRegex)?.[0];
 
     // Finding the query by prior -> the only text remaining is the query
+
+    const queryRegex = `${categoryText ? `${categoryText}-|${categoryText}|` : ""}${text.recipe}-${includePath ? `|-${includePath}|${includePath}` : ""}${excludePath ? `|${excludePath}|-${excludePath}` : ""}${orderText ? `|${text.order}-${orderText}-|${text.order}-${orderText}` : ""}${simpleCookingText ? `|${text.simplecooking}-${simpleCookingText}-|${text.simplecooking}-${simpleCookingText}` : ""}${tagsPath ? `|${tagsPath}|-${tagsPath}` : ""}`
     const queryText = sanitize
       .replace(
         new RegExp(
-          `${categoryText}-|${categoryText}|${text.recipe}-${includePath ? `|-${includePath}|${includePath}` : ""}${excludePath ? `|${excludePath}|-${excludePath}` : ""}`,
+          queryRegex,
           "g"
         ),
         ""
@@ -174,11 +258,20 @@ class SearchParser {
       sanitize
     );
 
+    // Splitting the ingredients and removing the words to tags
+    const tags = this._regexTextToIngredientsArray(
+      tagsRegex,
+      sanitize
+    );
+
     return {
       query: queryText || "",
       category: categoryText && (categoriesSingularToPlural[categoryText] || categoryText) || "",
       include: includeText || [],
       exclude: excludeText || [],
+      order: orderText || "",
+      simplecooking: simpleCookingText || "",
+      tags: tags || []
     };
   };
 
@@ -258,5 +351,17 @@ class SearchParser {
     return string.toLowerCase().replace(regex, space).replace(/\s+/g, space).trim();
   }
 }
+
+const parser = new SearchParser(SupportedLanguage.it);
+const string = (parser.stringify({
+  query: "hello",
+  category: "primi",
+  include: ["fdfd"],
+  exclude: ['3232'],
+  order: "order",
+}))
+
+const parsed = parser.parse(string);
+console.log(parsed)
 
 export default SearchParser;

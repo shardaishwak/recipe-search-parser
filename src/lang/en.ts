@@ -21,7 +21,10 @@ export const searchIndexesDictEN = {
   recipe: "recipe",
   category: "category",
   with: "with",
-  without: "without"
+  without: "without",
+  order: "order",
+  simplecooking: "simplecooking",
+  tags: "tags"
 }
 export const searchIndexesEN = [searchIndexesDictEN.recipe, searchIndexesDictEN.category, searchIndexesDictEN.with, searchIndexesDictEN.without];
 

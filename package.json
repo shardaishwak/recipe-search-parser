@@ -6,6 +6,7 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest",
+    "start": "npm run build && node ./lib/index.js",
     "build": "rm -rf lib && tsc -p tsconfig-build.json",
     "watch": "nodemon --watch src -e ts,tsx -x 'npm run build'",
     "watch:ts": "tsc -p tsconfig-build.json -w",
