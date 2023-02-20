@@ -107,6 +107,18 @@ export const test_case_data_IT = [
       tags: ["tag1"]
     },
     "dolci-hello-tags-tag1"
+  ],
+  [
+    {
+      query: "hello",
+      category: 'dolci',
+      include: [],
+      exclude: [],
+      order: "",
+      simplecooking: "",
+      tags: ["tag1-2"]
+    },
+    "dolci-hello-tags-tag1_2"
   ]
 ];
 
@@ -252,8 +264,16 @@ export const normal_test_data_IT = [
     formatData("", "", ["marmellata"], ["fagiolini"]),
   ],
   [
+    "ricette con la marmellata senza i fagiolini_cotti",
+    formatData("", "", ["marmellata"], ["fagiolini-cotti"]),
+  ],
+  [
     "ricette torta con la marmellata senza i fagiolini ordine interactions simplecooking cooking tags cioccolato carciofo",
     formatData("torta", "", ["marmellata"], ["fagiolini"], "interactions", "cooking", ["cioccolato", "carciofo"]),
+  ],
+  [
+    "tags simple_ingredients burro batta_malagna",
+    formatData("", "", [], [], "", "", ["simple-ingredients", "burro", "batta-malagna"]),
   ]
 ];
 

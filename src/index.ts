@@ -75,7 +75,8 @@ class SearchParser {
     // Check if the include was provided
     if (include && include.length > 0) {
       // Formatting the ingredinets by joining with dash
-      const removeSpaceAndConcat = this._cleanStringRegexp(include.join("-"), true).replace(/ /g, "-")
+      // if an item contains something like "this-that", it will be transformed to "this_that", to not confuse with delimiter "-"
+      const removeSpaceAndConcat = this._cleanStringRegexp(include.map(e => e.replace(/-/g, "_")).join("-"), true).replace(/ /g, "-")
       const text = searchIndexes.with + "-" + removeSpaceAndConcat
       // Checking if the query or category was provided
       if (path) {
@@ -88,7 +89,7 @@ class SearchParser {
     // Check if the exclude was provided
     if (exclude && exclude.length > 0) {
       // Formatting the ingredinets by joining with dash
-      const removeSpaceAndConcat = this._cleanStringRegexp( exclude.join("-"), true).replace(/ /g, "-")
+      const removeSpaceAndConcat = this._cleanStringRegexp( exclude.map(e => e.replace(/-/g, "_")).join("-"), true).replace(/ /g, "-")
       const text = searchIndexes.without + "-" + removeSpaceAndConcat
       // Checking if the query, category or include was provided
       if (path) {
@@ -127,7 +128,7 @@ class SearchParser {
     // Check if the tags was provided
     if (tags && tags.length > 0) {
       // Formatting the ingredinets by joining with dash
-      const removeSpaceAndConcat = this._cleanStringRegexp( tags.join("-"), true).replace(/ /g, "-")
+      const removeSpaceAndConcat = this._cleanStringRegexp(tags.map(e => e.replace(/-/g, "_")).join("-"), true).replace(/ /g, "-")
       const text = searchIndexes.tags + "-" + removeSpaceAndConcat
       // Checking if the query, category or include was provided
       if (path) {
@@ -334,7 +335,7 @@ class SearchParser {
     const ingredients: Set<string> = new Set();
     match?.forEach((result) => {
       result.split("-").forEach((element) => {
-        !international[this.lang].wordsToExclude.includes(element) && ingredients.add(element);
+        !international[this.lang].wordsToExclude.includes(element) && ingredients.add(element.replace(/_/g, "-"));
       });
     });
 
@@ -346,7 +347,7 @@ class SearchParser {
    * Ex. torta con carote, cipolla. Ma senza panna (e yogurt) -> torta con carote cipolla ma senza panna e yogurt
    */
   _cleanStringRegexp = (string: string, withSpace?: boolean): string => {
-    const regex = new RegExp(`[^a-z${withSpace ? " " : ""}A-Z0-9]`, "g")
+    const regex = new RegExp(`[^a-z${withSpace ? " " : ""}_A-Z0-9]`, "g")
     const space = withSpace ? " " : "";
     return string.toLowerCase().replace(regex, space).replace(/\s+/g, space).trim();
   }
