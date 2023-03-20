@@ -2,8 +2,6 @@ export const wordsToExcludeEN = [
   "recipe",
   "recipes",
   "category",
-  "with",
-  "without",
   "a",
   "of",
   "and",
@@ -20,8 +18,8 @@ export const wordsToExcludeStringEN = wordsToExcludeEN.reduce((acc, word) => {
 export const searchIndexesDictEN = {
   recipe: "recipe",
   category: "category",
-  with: "with",
-  without: "without",
+  with: "ingredientsin",
+  without: "ingredientsout",
   order: "order",
   simplecooking: "simplecooking",
   tags: "tags"

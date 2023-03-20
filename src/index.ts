@@ -76,7 +76,7 @@ class SearchParser {
     if (include && include.length > 0) {
       // Formatting the ingredinets by joining with dash
       // if an item contains something like "this-that", it will be transformed to "this_that", to not confuse with delimiter "-"
-      const removeSpaceAndConcat = this._cleanStringRegexp(include.map(e => e.replace(/-/g, "_")).join("-"), true).replace(/ /g, "-")
+      const removeSpaceAndConcat = this._cleanStringRegexp(include.map(e => e.replace(/ /g, "_")).join("-"), true).replace(/ /g, "-")
       const text = searchIndexes.with + "-" + removeSpaceAndConcat
       // Checking if the query or category was provided
       if (path) {
@@ -89,7 +89,7 @@ class SearchParser {
     // Check if the exclude was provided
     if (exclude && exclude.length > 0) {
       // Formatting the ingredinets by joining with dash
-      const removeSpaceAndConcat = this._cleanStringRegexp( exclude.map(e => e.replace(/-/g, "_")).join("-"), true).replace(/ /g, "-")
+      const removeSpaceAndConcat = this._cleanStringRegexp( exclude.map(e => e.replace(/ /g, "_")).join("-"), true).replace(/ /g, "-")
       const text = searchIndexes.without + "-" + removeSpaceAndConcat
       // Checking if the query, category or include was provided
       if (path) {
@@ -250,13 +250,15 @@ class SearchParser {
     // Splitting the ingredients and removing the words to exclude
     const includeText = this._regexTextToIngredientsArray(
       includeRegex,
-      sanitize
+      sanitize,
+      true
     );
 
     // Splitting the ingredients and removing the words to exclude
     const excludeText = this._regexTextToIngredientsArray(
       excludeRegex,
-      sanitize
+      sanitize,
+      true
     );
 
     // Splitting the ingredients and removing the words to tags
@@ -328,14 +330,16 @@ class SearchParser {
    */
   _regexTextToIngredientsArray = (
     regex: RegExp,
-    text: string
+    text: string,
+    space?: boolean
   ): Array<string> => {
     const match = text.match(regex);
 
     const ingredients: Set<string> = new Set();
     match?.forEach((result) => {
       result.split("-").forEach((element) => {
-        !international[this.lang].wordsToExclude.includes(element) && ingredients.add(element.replace(/_/g, "-"));
+        // tags require dash,but include exclude require space. that is why i am adding parameter space.
+        !international[this.lang].wordsToExclude.includes(element) && ingredients.add(element.replace(/_/g, space ? " " : "-"));
       });
     });
 

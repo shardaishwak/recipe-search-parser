@@ -6,7 +6,7 @@ export const test_case_data_IT = [
       include: ["latte"],
       exclude: ["uova"],
     },
-    "dolci-banana-alla-fragola-con-latte-senza-uova",
+    "dolci-banana-alla-fragola-ingredientsin-latte-ingredientsout-uova",
   ],
   [
     {
@@ -28,7 +28,7 @@ export const test_case_data_IT = [
       include: ["panna", "mozarella", "zucchine"],
       exclude: ["olio", "uova", "panna"],
     },
-    "piatto-unico-ricetta-alla-banana-con-panna-mozarella-zucchine-senza-olio-uova-panna",
+    "piatto-unico-ricetta-alla-banana-ingredientsin-panna-mozarella-zucchine-ingredientsout-olio-uova-panna",
   ],
   [
     {
@@ -37,7 +37,7 @@ export const test_case_data_IT = [
       include: ["saliccia", "tonno", "lattughe"],
       exclude: ["basicico", "arrosto"],
     },
-    "piatto-unico-manzo-affumicato-in-padella-con-saliccia-tonno-lattughe-senza-basicico-arrosto",
+    "piatto-unico-manzo-affumicato-in-padella-ingredientsin-saliccia-tonno-lattughe-ingredientsout-basicico-arrosto",
   ],
   [
     {
@@ -46,7 +46,7 @@ export const test_case_data_IT = [
       include: ["uova", "panna", "zucchine"],
       exclude: ["olio", "uova", "panna"],
     },
-    "antipasti-ricetta-di-tartufo-con-uova-panna-zucchine-senza-olio-uova-panna",
+    "antipasti-ricetta-di-tartufo-ingredientsin-uova-panna-zucchine-ingredientsout-olio-uova-panna",
   ],
   [
     {
@@ -55,7 +55,7 @@ export const test_case_data_IT = [
       include: ["farina 00 macinato"],
       exclude: []
     },
-    "con-farina-00-macinato"
+    "ingredientsin-farina_00_macinato"
   ],
   [
     {
@@ -64,25 +64,16 @@ export const test_case_data_IT = [
       include: [],
       exclude:["farina 00 macinato", "uova cotta"]
     },
-    "senza-farina-00-macinato-uova-cotta"
+    "ingredientsout-farina_00_macinato-uova_cotta"
   ],
   [
     {
-      query: "con fiocchi di patate (o 2 patate lesse)",
+      query: "",
       category: "",
-      include: [],
+      include: ["crema di nocciole secche"],
       exclude: []
     },
-    "con-fiocchi-di-patate-o-2-patate-lesse"
-  ],
-  [
-    {
-      query: "con crema di nocciole (o altra crema 100% frutta  secca)",
-      category: "",
-      include: [],
-      exclude: []
-    },
-    "con-crema-di-nocciole-o-altra-crema-100-frutta-secca"
+    "ingredientsin-crema_di_nocciole_secche"
   ],
   [
     {
@@ -124,8 +115,8 @@ export const test_case_data_IT = [
 
 export const test_case_data_EN = [
   [
-    {query: "banana with strawberry", category: "sweet", include: ["milk"], exclude: ["egg"],}, 
-    "sweet-banana-with-strawberry-with-milk-without-egg"
+    {query: "banana ingredientsin strawberry", category: "sweet", include: ["milk"], exclude: ["egg"],}, 
+    "sweet-banana-ingredientsin-strawberry-ingredientsin-milk-ingredientsout-egg"
   ],
   [
     {query: "banana", category: "", include: [], exclude: []},
@@ -136,8 +127,8 @@ export const test_case_data_EN = [
     "recipe-banana"
   ],
   [
-    {query: "recipe with banana", category: "first-dishes", include: ["panna", "mozzarella", "sugar"], exclude: ["oil", "egg", "other"]},
-    "first-dishes-recipe-with-banana-with-panna-mozzarella-sugar-without-oil-egg-other"
+    {query: "recipe ingredientsin banana", category: "first-dishes", include: ["panna", "mozzarella", "sugar"], exclude: ["oil", "egg", "other"]},
+    "first-dishes-recipe-ingredientsin-banana-ingredientsin-panna-mozzarella-sugar-ingredientsout-oil-egg-other"
   ]
 ]
 
@@ -154,10 +145,10 @@ const formatData = (
 
 // [output, input] - parse only
 export const normal_test_data_IT = [
-  ["con zucchero", formatData("", "", ["zucchero"], [])],
-  ["con zucchero senza latte", formatData("", "", ["zucchero"], ["latte"])],
+  ["ingredientsin zucchero", formatData("", "", ["zucchero"], [])],
+  ["ingredientsin zucchero ingredientsout latte", formatData("", "", ["zucchero"], ["latte"])],
   [
-    "bevande ricetta banana e zucchine senza tartufo con zucchero panna con olio",
+    "bevande ricetta banana e zucchine ingredientsout tartufo ingredientsin zucchero panna ingredientsin olio",
     formatData(
       "banana e zucchine",
       "bevande",
@@ -166,11 +157,11 @@ export const normal_test_data_IT = [
     ),
   ],
   [
-    "dolci con fermento di latte senza lattosio e fruttosio",
+    "dolci ingredientsin fermento di latte ingredientsout lattosio e fruttosio",
     formatData("", "dolci", ["fermento", "latte"], ["lattosio", "fruttosio"]),
   ],
   [
-    "ricetta-panna-cotta-con-crema-di-mascarpone-con-olio-senza-latte-e-senza-uova-senza-tartufo-con-marmellata",
+    "ricetta-panna-cotta-ingredientsin-crema-di-mascarpone-ingredientsin-olio-ingredientsout-latte-e-ingredientsout-uova-ingredientsout-tartufo-ingredientsin-marmellata",
     formatData(
       "panna cotta",
       "",
@@ -180,15 +171,15 @@ export const normal_test_data_IT = [
   ],
   ["fritti in padella", formatData("fritti in padella", "", [], [])],
   [
-    "senza lattosio e formaggi",
+    "ingredientsout lattosio e formaggi",
     formatData("", "", [], ["lattosio", "formaggi"]),
   ],
   [
-    "crostata con crema pasticcera e fragola",
+    "crostata ingredientsin crema pasticcera e fragola",
     formatData("crostata", "", ["crema", "pasticcera", "fragola"], []),
   ],
   [
-    "spaghetti risottati con zucchine e gamberi leggermente scottati",
+    "spaghetti risottati ingredientsin zucchine e gamberi leggermente scottati",
     formatData(
       "spaghetti risottati",
       "",
@@ -197,12 +188,12 @@ export const normal_test_data_IT = [
     ),
   ],
   ["dolci", formatData("", "dolci", [], [])],
-  ["senza malscalpone", formatData("", "", [], ["malscalpone"])],
-  ["con", formatData("", "", [], [])],
-  ["senza", formatData("", "", [], [])],
-  ["con panna", formatData("", "", ["panna"], [])],
+  ["ingredientsout malscalpone", formatData("", "", [], ["malscalpone"])],
+  ["ingredientsin", formatData("", "", [], [])],
+  ["ingredientsout", formatData("", "", [], [])],
+  ["ingredientsin panna", formatData("", "", ["panna"], [])],
   [
-    "ricetta di ishwak con pesto alla panna, tartufo, gamberi rossi e zucchine senza il basilico e senza il formaggio",
+    "ricetta di ishwak ingredientsin pesto alla panna, tartufo, gamberi rossi e zucchine ingredientsout il basilico e ingredientsout il formaggio",
     formatData(
       "ishwak", // Test case when adding user
       "",
@@ -211,11 +202,11 @@ export const normal_test_data_IT = [
     ),
   ],
   [
-    "con panna, con zucchine, senza formaggio",
+    "ingredientsin panna, ingredientsin zucchine, ingredientsout formaggio",
     formatData("", "", ["panna", "zucchine"], ["formaggio"]),
   ],
   [
-    "ricetta alla banana con tartufo",
+    "ricetta alla banana ingredientsin tartufo",
     formatData("banana", "", ["tartufo"], []),
   ],
   // testing the singular and plural category
@@ -244,7 +235,7 @@ export const normal_test_data_IT = [
     formatData("unpelatoincucina", "", [], []),
   ],
   [
-    "unpelatoincucina con panna",
+    "unpelatoincucina ingredientsin panna",
     formatData("unpelatoincucina", "", ["panna"], []),
   ],
   [
@@ -256,31 +247,35 @@ export const normal_test_data_IT = [
     formatData("per natale", "", [], []),
   ],
   [
-    "ricette con zucchero",
+    "ricette ingredientsin zucchero",
     formatData("", "", ["zucchero"], []),
   ],
   [
-    "ricette con la marmellata senza i fagiolini",
+    "ricette ingredientsin la marmellata ingredientsout i fagiolini",
     formatData("", "", ["marmellata"], ["fagiolini"]),
   ],
   [
-    "ricette con la marmellata senza i fagiolini_cotti",
-    formatData("", "", ["marmellata"], ["fagiolini-cotti"]),
+    "ricette ingredientsin la marmellata ingredientsout i fagiolini_cotti",
+    formatData("", "", ["marmellata"], ["fagiolini cotti"]),
   ],
   [
-    "ricette torta con la marmellata senza i fagiolini ordine interactions simplecooking cooking tags cioccolato carciofo",
+    "ricette torta ingredientsin la marmellata ingredientsout i fagiolini ordine interactions simplecooking cooking tags cioccolato carciofo",
     formatData("torta", "", ["marmellata"], ["fagiolini"], "interactions", "cooking", ["cioccolato", "carciofo"]),
   ],
   [
     "tags simple_ingredients burro batta_malagna",
     formatData("", "", [], [], "", "", ["simple-ingredients", "burro", "batta-malagna"]),
+  ],
+  [
+    "pasta con tonno",
+    formatData("pasta con tonno", "", [], [], "", "", []),
   ]
 ];
 
 export const normal_test_data_EN = [
-  ["with sugar", formatData("", "", ["sugar"], [])],
+  ["ingredientsin sugar", formatData("", "", ["sugar"], [])],
   ["appetizer", formatData("", "appetizers", [], [])],
-  ["dessert recipe banana and zucchine without tartufo with zucchoero, panna and oil", formatData("banana and zucchine", "desserts", ["zucchoero", "panna", "oil"], ["tartufo"])],
+  ["dessert recipe banana and zucchine ingredientsout tartufo ingredientsin zucchoero, panna and oil", formatData("banana and zucchine", "desserts", ["zucchoero", "panna", "oil"], ["tartufo"])],
   ["sweets", formatData("", "sweets", [], [])],
 
 ]
