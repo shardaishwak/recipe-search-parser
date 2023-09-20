@@ -110,7 +110,10 @@ export const test_case_data_IT = [
       tags: ["tag1-2"]
     },
     "dolci-hello-tags-tag1_2"
-  ]
+  ],
+  [{
+    query: "hèéêëēėęàáâäæãåāîïíīįìôöòóœøōõûüùúū"
+  }, "heeeeeeeaaaaaaaaiiiiiioooooooouuuuu"]
 ];
 
 export const test_case_data_EN = [

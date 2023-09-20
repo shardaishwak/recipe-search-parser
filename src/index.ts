@@ -353,7 +353,7 @@ class SearchParser {
   _cleanStringRegexp = (string: string, withSpace?: boolean): string => {
     const regex = new RegExp(`[^a-z${withSpace ? " " : ""}_A-Z0-9]`, "g")
     const space = withSpace ? " " : "";
-    return string.toLowerCase().replace(regex, space).replace(/\s+/g, space).trim();
+    return string.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/æ/g, 'a').replace(/œ|ø/g, 'o').replace(regex, space).replace(/\s+/g, space).trim();
   }
 }
 export default SearchParser;
